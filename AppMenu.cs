@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace MaxSuperHiperMegaRambo5
 {
@@ -12,6 +14,7 @@ namespace MaxSuperHiperMegaRambo5
         public static void MainMenu()
         {
             int cndt = 0;
+            int lettersInFile = 0;
             do
             {
                 Console.WriteLine("Select option 1-8:");
@@ -49,8 +52,10 @@ namespace MaxSuperHiperMegaRambo5
                         {
                             try
                             {
+                                StreamReader file = new StreamReader("6.TXT");
+                                lettersInFile = CountLetters(file);
                             }
-                            catch (Exception)
+                            catch (FileNotFoundException)
                             {
                             }
                             break;
@@ -117,6 +122,16 @@ namespace MaxSuperHiperMegaRambo5
                         }
                 }
             } while (cndt != 8);
+        }
+
+        static int CountLetters(StreamReader file)
+        {
+            string fileReaded = file.ReadToEnd();
+            Regex regex = new Regex(@"[^A-Za-z]");
+            fileReaded.Trim();
+            fileReaded = regex.Replace(fileReaded, "");
+            int len = fileReaded.Length;
+            return len;
         }
 
 

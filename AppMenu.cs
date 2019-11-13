@@ -117,6 +117,7 @@ namespace MaxSuperHiperMegaRambo5
                                 {
                                     Console.WriteLine("Letter: {0}\tQuantity: {1}", item.Key, item.Value);
                                 }
+                                file.Close();
                             }
                             catch (FileNotFoundException)
                             {
@@ -157,7 +158,6 @@ namespace MaxSuperHiperMegaRambo5
                 fileReaded.Trim();
                 fileReaded = regex.Replace(fileReaded, "");
                 int len = fileReaded.Length;
-                file.Close();
                 return len;
             }
             else
@@ -239,7 +239,6 @@ namespace MaxSuperHiperMegaRambo5
                     }
                     report.Add(letter, counter);
                 }
-                file.Close();
                 return report;
             }
             else

@@ -134,7 +134,7 @@ namespace MaxSuperHiperMegaRambo5
             int len = fileReaded.Length;
             return len;
         }
-        static int Exit()
+        static void Exit()
         {
             if (File.Exists("6.txt"))
             {

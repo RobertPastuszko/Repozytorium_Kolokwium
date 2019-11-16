@@ -16,6 +16,7 @@ namespace MaxSuperHiperMegaRambo5
         {
             int cndt = 0;
             int lettersInFile = 0;
+            GetFile();
             do
             {
                 Console.WriteLine("Select option 1-8:");

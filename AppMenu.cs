@@ -2,6 +2,7 @@
 using System.Threading;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace MaxSuperHiperMegaRambo5
 {
@@ -16,6 +17,8 @@ namespace MaxSuperHiperMegaRambo5
             int cndt = 0;
             int lettersInFile = 0;
             int wordsInFile = 0;
+            GetFile();
+          
             do
             {
                 Console.WriteLine("Select option 1-8:");
@@ -43,6 +46,7 @@ namespace MaxSuperHiperMegaRambo5
                         {
                             try
                             {
+                                GetFile();
                             }
                             catch (Exception)
                             {
@@ -158,6 +162,21 @@ namespace MaxSuperHiperMegaRambo5
                 }
             }
             return counter;
+        }
+
+        static void GetFile()
+        {
+            using (WebClient Client = new WebClient())
+            {
+                try
+                {
+                    Client.DownloadFile("https://s3.zylowski.net/public/input/6.txt", @"6.txt");
+                }
+                catch (WebException)
+                {
+                    Console.WriteLine("File could not be downloaded");
+                }
+            }
         }
 
 

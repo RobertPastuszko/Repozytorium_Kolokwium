@@ -139,8 +139,16 @@ namespace MaxSuperHiperMegaRambo5
 
         static void GetFile()
         {
-            WebClient Client = new WebClient();
-            Client.DownloadFile("https://s3.zylowski.net/public/input/6.txt", @"6.txt");
+            using (WebClient Client = new WebClient())
+            {
+                try
+                {
+                    Client.DownloadFile("https://s3.zylowski.net/public/input/6.txt", @"6.txt");
+                }
+                catch (WebException)
+                {
+                }
+            }
         }
 
 

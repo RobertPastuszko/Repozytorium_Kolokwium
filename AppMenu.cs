@@ -2,6 +2,7 @@
 using System.Threading;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace MaxSuperHiperMegaRambo5
 {
@@ -13,6 +14,8 @@ namespace MaxSuperHiperMegaRambo5
     {
         public static void MainMenu()
         {
+            GetFile();
+
             int cndt = 0;
             int lettersInFile = 0;
             do
@@ -132,6 +135,12 @@ namespace MaxSuperHiperMegaRambo5
             fileReaded = regex.Replace(fileReaded, "");
             int len = fileReaded.Length;
             return len;
+        }
+
+        static void GetFile()
+        {
+            WebClient Client = new WebClient();
+            Client.DownloadFile("https://s3.zylowski.net/public/input/6.txt", @"6.txt");
         }
 
 

@@ -1,3 +1,4 @@
 *.exe
 *.TXT
+/.vs/ProjectSettings.json
 /.vs

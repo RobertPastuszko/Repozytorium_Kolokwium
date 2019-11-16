@@ -14,8 +14,6 @@ namespace MaxSuperHiperMegaRambo5
     {
         public static void MainMenu()
         {
-            GetFile();
-
             int cndt = 0;
             int lettersInFile = 0;
             do
@@ -45,6 +43,7 @@ namespace MaxSuperHiperMegaRambo5
                         {
                             try
                             {
+                                GetFile();
                             }
                             catch (Exception)
                             {
@@ -147,6 +146,7 @@ namespace MaxSuperHiperMegaRambo5
                 }
                 catch (WebException)
                 {
+                    Console.WriteLine("File could not be downloaded");
                 }
             }
         }

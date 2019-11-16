@@ -16,7 +16,9 @@ namespace MaxSuperHiperMegaRambo5
         {
             int cndt = 0;
             int lettersInFile = 0;
+            int wordsInFile = 0;
             GetFile();
+          
             do
             {
                 Console.WriteLine("Select option 1-8:");
@@ -67,8 +69,9 @@ namespace MaxSuperHiperMegaRambo5
                         {
                             try
                             {
+                                wordsInFile = CountWords();
                             }
-                            catch (Exception)
+                            catch (FileNotFoundException)
                             {
                             }
                             break;
@@ -135,6 +138,30 @@ namespace MaxSuperHiperMegaRambo5
             fileReaded = regex.Replace(fileReaded, "");
             int len = fileReaded.Length;
             return len;
+        }
+        static int CountWords()
+        {
+            if (!File.Exists("6.Txt"))
+            {
+                throw new FileNotFoundException();
+            }
+
+            string fileRead = new StreamReader("6.Txt").ReadToEnd();
+            bool HasWordEnded = true;
+            int counter = 0;
+            foreach (char c in fileRead)
+            {
+                if(HasWordEnded && Char.IsLetter(c))
+                {
+                    counter++;
+                    HasWordEnded = false;
+                }
+                if(!HasWordEnded && Char.IsWhiteSpace(c))
+                {
+                    HasWordEnded = true;
+                }
+            }
+            return counter;
         }
 
         static void GetFile()

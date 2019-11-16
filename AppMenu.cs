@@ -65,9 +65,9 @@ namespace MaxSuperHiperMegaRambo5
                         {
                             try
                             {
-                                lettersInFile = CountWords();
+                                wordsInFile = CountWords();
                             }
-                            catch (Exception)
+                            catch (FileNotFoundException)
                             {
                             }
                             break;

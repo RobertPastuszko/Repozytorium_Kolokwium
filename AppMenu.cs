@@ -112,6 +112,7 @@ namespace MaxSuperHiperMegaRambo5
                         }
                     case 8:
                         {
+                            Exit();
                             Console.WriteLine("Program terminated");
                             Thread.Sleep(1280);
                             break;
@@ -133,6 +134,18 @@ namespace MaxSuperHiperMegaRambo5
             int len = fileReaded.Length;
             return len;
         }
+        static int Exit()
+        {
+            if (File.Exists("6.txt"))
+            {
+                File.Delete("6.txt");
+            }
+            if (File.Exists("statystyki.txt"))
+            {
+                File.Delete("statystyki.txt");
+            }
+        }
+
 
 
         static public void Main(String[] args)

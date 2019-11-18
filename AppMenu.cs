@@ -3,6 +3,7 @@ using System.Threading;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Net;
+using System.Collections.Generic;
 
 namespace MaxSuperHiperMegaRambo5
 {
@@ -12,13 +13,18 @@ namespace MaxSuperHiperMegaRambo5
 
     public class Menu
     {
+        private static readonly char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                                                   'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
         public static void MainMenu()
         {
             int cndt = 0;
             int lettersInFile = 0;
             int wordsInFile = 0;
+            Dictionary<char, int> report;
+
             GetFile();
-          
+
             do
             {
                 Console.WriteLine("Select option 1-8:");
@@ -31,6 +37,7 @@ namespace MaxSuperHiperMegaRambo5
                 Console.WriteLine("7. Save statistics from above points to file \"statystyki.txt\"");
                 Console.WriteLine("8. Quit");
                 var read = Console.ReadLine();
+
                 try
                 {
                     cndt = Convert.ToInt32(read);
@@ -40,6 +47,7 @@ namespace MaxSuperHiperMegaRambo5
                 }
                 Console.WriteLine("You chose {0}", read);
                 if (cndt < 1 || cndt > 8) Console.WriteLine("It's not a proper choice");
+                
                 switch (cndt)
                 {
                     case 1:
@@ -59,6 +67,7 @@ namespace MaxSuperHiperMegaRambo5
                             {
                                 StreamReader file = new StreamReader("6.TXT");
                                 lettersInFile = CountLetters(file);
+                                Console.WriteLine("There are {0} letters in file.", lettersInFile);
                             }
                             catch (FileNotFoundException)
                             {
@@ -100,8 +109,14 @@ namespace MaxSuperHiperMegaRambo5
                         {
                             try
                             {
+                                StreamReader file = new StreamReader("6.TXT");
+                                report = Report(file);
+                                foreach (KeyValuePair<char, int> item in report)
+                                {
+                                    Console.WriteLine("Letter: {0}\tQuantity: {1}", item.Key, item.Value);
+                                }
                             }
-                            catch (Exception)
+                            catch (FileNotFoundException)
                             {
                             }
                             break;
@@ -133,13 +148,20 @@ namespace MaxSuperHiperMegaRambo5
 
         static int CountLetters(StreamReader file)
         {
-            string fileReaded = file.ReadToEnd();
-            Regex regex = new Regex(@"[^A-Za-z]");
-            fileReaded.Trim();
-            fileReaded = regex.Replace(fileReaded, "");
-            int len = fileReaded.Length;
-            return len;
+            if (File.Exists("6.txt"))
+            {
+                string fileReaded = file.ReadToEnd();
+                Regex regex = new Regex(@"[^A-Za-z]");
+                fileReaded.Trim();
+                fileReaded = regex.Replace(fileReaded, "");
+                int len = fileReaded.Length;
+                file.Close();
+                return len;
+            }
+            else
+                throw new FileNotFoundException();
         }
+
         static void Exit()
         {
             if (File.Exists("6.txt"))
@@ -190,6 +212,33 @@ namespace MaxSuperHiperMegaRambo5
                     Console.WriteLine("File could not be downloaded");
                 }
             }
+        }
+
+        static Dictionary<char, int> Report(StreamReader file)
+        {
+            if (File.Exists("6.txt"))
+            {
+                string fileReaded = file.ReadToEnd();
+                Regex regex = new Regex(@"[^A-Za-z]");
+                fileReaded = fileReaded.Trim();
+                fileReaded = regex.Replace(fileReaded, "");
+                fileReaded = fileReaded.ToUpper();
+                Dictionary<char, int> report = new Dictionary<char, int>();
+                foreach (char letter in alphabet)
+                {
+                    int counter = 0;
+                    foreach (char letterInFile in fileReaded)
+                    {
+                        if (letter == letterInFile)
+                            counter++;
+                    }
+                    report.Add(letter, counter);
+                }
+                file.Close();
+                return report;
+            }
+            else
+                throw new FileNotFoundException();
         }
 
 

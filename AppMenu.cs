@@ -67,7 +67,8 @@ namespace MaxSuperHiperMegaRambo5
                             {
                                 StreamReader file = new StreamReader("6.TXT");
                                 lettersInFile = CountLetters(file);
-                                Console.WriteLine("There are {0} letters in file.", lettersInFile);
+                                Console.WriteLine("There are {0} letters in given file.", lettersInFile);
+                                file.Close();
                             }
                             catch (FileNotFoundException)
                             {
@@ -79,6 +80,7 @@ namespace MaxSuperHiperMegaRambo5
                             try
                             {
                                 wordsInFile = CountWords();
+                                Console.WriteLine("There are {0} words in given file.", wordsInFile);
                             }
                             catch (FileNotFoundException)
                             {
@@ -181,22 +183,25 @@ namespace MaxSuperHiperMegaRambo5
                 throw new FileNotFoundException();
             }
 
-            string fileRead = new StreamReader("6.Txt").ReadToEnd();
-            bool HasWordEnded = true;
-            int counter = 0;
-            foreach (char c in fileRead)
+            using (StreamReader stream = new StreamReader("6.Txt"))
             {
-                if(HasWordEnded && Char.IsLetter(c))
+                string fileRead = stream.ReadToEnd().ToString();
+                bool HasWordEnded = true;
+                int counter = 0;
+                foreach (char c in fileRead)
                 {
-                    counter++;
-                    HasWordEnded = false;
+                    if (HasWordEnded && Char.IsLetter(c))
+                    {
+                        counter++;
+                        HasWordEnded = false;
+                    }
+                    if (!HasWordEnded && Char.IsWhiteSpace(c))
+                    {
+                        HasWordEnded = true;
+                    }
                 }
-                if(!HasWordEnded && Char.IsWhiteSpace(c))
-                {
-                    HasWordEnded = true;
-                }
+                return counter;
             }
-            return counter;
         }
 
         static void GetFile()

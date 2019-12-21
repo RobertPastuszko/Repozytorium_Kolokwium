@@ -151,12 +151,19 @@ namespace MaxSuperHiperMegaRambo5
                             }
                             break;
                         }
-                    case 7:
+                                        case 7:
                         {
                             try
                             {
+                                StreamReader file = new StreamReader("6.TXT");
+                                Statistics(file);
+                                if (File.Exists("statystyki.txt"))
+                                    Console.WriteLine("Statistics succesfully written to file \"statystyki.txt\"");
+                                else
+                                    Console.WriteLine("Statistics weren't succesfully written to file.");
+                                file.Close();
                             }
-                            catch (Exception)
+                            catch (FileNotFoundException)
                             {
                             }
                             break;
@@ -293,6 +300,28 @@ namespace MaxSuperHiperMegaRambo5
             }
             int len = nonEmptySentence.Count;
             return len;
+        }
+        static StreamWriter Statistics(StreamReader file)
+        {
+            if (!File.Exists("6.Txt"))
+            {
+                throw new FileNotFoundException();
+            }
+            
+            StreamWriter stats = new StreamWriter("statystyki.txt");
+            stats.WriteLine("There are {0} letters in given file.", CountLetters(file));
+            stats.WriteLine();
+            stats.WriteLine("There are {0} words in given file.", CountWords());
+            stats.WriteLine();
+            stats.WriteLine("There are {0} punctuation marks in given file.", CountPunctuation(file));
+            stats.WriteLine();
+            stats.WriteLine("There are {0} sentences in given file.", CountSentences(file));
+            report = Report(file);
+            foreach (KeyValuePair<char, int> item in report)
+            {
+                stats.WriteLine("Letter: {0}\tQuantity: {1}", item.Key, item.Value);
+            }
+            stats.Close();
         }
 
         static public void Main(String[] args)

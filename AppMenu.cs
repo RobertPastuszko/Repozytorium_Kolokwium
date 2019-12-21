@@ -128,6 +128,7 @@ namespace MaxSuperHiperMegaRambo5
                                 {
                                     Console.WriteLine("Letter: {0}\tQuantity: {1}", item.Key, item.Value);
                                 }
+                                file.Close();
                             }
                             catch (FileNotFoundException)
                             {
@@ -175,7 +176,6 @@ namespace MaxSuperHiperMegaRambo5
                 fileReaded.Trim();
                 fileReaded = regex.Replace(fileReaded, "");
                 int len = fileReaded.Length;
-                file.Close();
                 return len;
             }
             else
@@ -257,7 +257,6 @@ namespace MaxSuperHiperMegaRambo5
                     }
                     report.Add(letter, counter);
                 }
-                file.Close();
                 return report;
             }
             else
@@ -318,6 +317,7 @@ namespace MaxSuperHiperMegaRambo5
             stats.WriteLine("There are {0} punctuation marks in given file.", CountPunctuation(file));
             stats.WriteLine();
             stats.WriteLine("There are {0} sentences in given file.", CountSentences(file));
+            stats.WriteLine();
             Dictionary<char, int> report = new Dictionary<char, int>();
             report = Report(file);
             foreach (KeyValuePair<char, int> item in report)

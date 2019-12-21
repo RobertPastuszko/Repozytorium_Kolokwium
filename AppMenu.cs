@@ -21,6 +21,8 @@ namespace MaxSuperHiperMegaRambo5
             int cndt = 0;
             int lettersInFile = 0;
             int wordsInFile = 0;
+            int punctuationsInFile = 0;
+            int sentencesInFile = 0;
             Dictionary<char, int> report;
 
             GetFile();
@@ -132,7 +134,7 @@ namespace MaxSuperHiperMegaRambo5
                             }
                             break;
                         }
-                                        case 7:
+                    case 7:
                         {
                             try
                             {
@@ -301,7 +303,7 @@ namespace MaxSuperHiperMegaRambo5
             return count;
         }
 
-        static StreamWriter Statistics(StreamReader file)
+        static void Statistics(StreamReader file)
         {
             if (!File.Exists("6.Txt"))
             {
@@ -316,6 +318,7 @@ namespace MaxSuperHiperMegaRambo5
             stats.WriteLine("There are {0} punctuation marks in given file.", CountPunctuation(file));
             stats.WriteLine();
             stats.WriteLine("There are {0} sentences in given file.", CountSentences(file));
+            Dictionary<char, int> report = new Dictionary<char, int>();
             report = Report(file);
             foreach (KeyValuePair<char, int> item in report)
             {

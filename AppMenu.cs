@@ -87,16 +87,40 @@ namespace MaxSuperHiperMegaRambo5
                             }
                             break;
                         }
+                   
                     case 4:
                         {
                             try
                             {
+                                StreamReader file = new StreamReader("6.txt");
+                                punctuationsInFile = CountPunctuation(file);
+                                Console.WriteLine("There are {0} punctuation marks in given file.", punctuationsInFile);
+                                file.Close();
                             }
-                            catch (Exception)
+                            catch (FileNotFoundException)
                             {
                             }
                             break;
                         }
+											
+        static int CountPunctuation(StreamReader file)
+        {
+            if (!File.Exists("6.Txt"))
+            {
+                throw new FileNotFoundException();
+            }
+
+            string fileReaded = file.ReadToEnd();
+            fileReaded.Trim();
+            int count = 0;
+            foreach (char c in fileReaded)
+            {
+                if (Char.IsPunctuation(c))
+                    count++;
+            }
+            return count;
+        }
+						
                     case 5:
                         {
                             try

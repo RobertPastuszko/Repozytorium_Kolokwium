@@ -101,8 +101,12 @@ namespace MaxSuperHiperMegaRambo5
                         {
                             try
                             {
+                                StreamReader file = new StreamReader("6.txt");
+                                sentencesInFile = CountSentences(file);
+                                Console.WriteLine("There are {0} sentences in given file.", sentencesInFile);
+                                file.Close();
                             }
-                            catch (Exception)
+                            catch (FileNotFoundException)
                             {
                             }
                             break;
@@ -246,6 +250,26 @@ namespace MaxSuperHiperMegaRambo5
                 throw new FileNotFoundException();
         }
 
+		static int CountSentences(StreamReader file)
+        {
+            if (!File.Exists("6.txt"))
+            {
+                throw new FileNotFoundException();
+            }
+
+            string fileReaded = file.ReadToEnd();
+            string[] sentences = fileReaded.Split('.', '?', '!');
+            List<string> nonEmptySentence = new List<string>();
+            foreach(string sentence in sentences)
+            {
+                if (!String.IsNullOrWhiteSpace(sentence))
+                {
+                    nonEmptySentence.Add(sentence);
+                }
+            }
+            int len = nonEmptySentence.Count;
+            return len;
+        }
 
         static public void Main(String[] args)
         {

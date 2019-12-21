@@ -101,26 +101,7 @@ namespace MaxSuperHiperMegaRambo5
                             {
                             }
                             break;
-                        }
-											
-        static int CountPunctuation(StreamReader file)
-        {
-            if (!File.Exists("6.Txt"))
-            {
-                throw new FileNotFoundException();
-            }
-
-            string fileReaded = file.ReadToEnd();
-            fileReaded.Trim();
-            int count = 0;
-            foreach (char c in fileReaded)
-            {
-                if (Char.IsPunctuation(c))
-                    count++;
-            }
-            return count;
-        }
-						
+                        }						
                     case 5:
                         {
                             try
@@ -301,6 +282,25 @@ namespace MaxSuperHiperMegaRambo5
             int len = nonEmptySentence.Count;
             return len;
         }
+
+        static int CountPunctuation(StreamReader file)
+        {
+            if (!File.Exists("6.Txt"))
+            {
+                throw new FileNotFoundException();
+            }
+
+            string fileReaded = file.ReadToEnd();
+            fileReaded.Trim();
+            int count = 0;
+            foreach (char c in fileReaded)
+            {
+                if (Char.IsPunctuation(c))
+                    count++;
+            }
+            return count;
+        }
+
         static StreamWriter Statistics(StreamReader file)
         {
             if (!File.Exists("6.Txt"))

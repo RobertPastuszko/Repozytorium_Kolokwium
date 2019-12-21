@@ -272,7 +272,7 @@ namespace MaxSuperHiperMegaRambo5
             }
 
             string fileReaded = file.ReadToEnd();
-            string[] sentences = fileReaded.Split('.', '?', '!');
+            string[] sentences = fileReaded.Split('.', '?');
             List<string> nonEmptySentence = new List<string>();
             foreach(string sentence in sentences)
             {

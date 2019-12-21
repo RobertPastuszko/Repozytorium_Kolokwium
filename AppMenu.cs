@@ -226,13 +226,55 @@ namespace MaxSuperHiperMegaRambo5
         {
             using (WebClient Client = new WebClient())
             {
-                try
+                string answer = "";
+                Console.WriteLine("Do You want to download text file from the internet?");
+                Console.WriteLine("If yes push 'Y'.");
+                Console.WriteLine("If no push 'N'.");
+                answer = Console.ReadLine().ToString().ToLower();
+                if (answer == "y")
                 {
-                    Client.DownloadFile("https://s3.zylowski.net/public/input/6.txt", @"6.txt");
+                    Uri uri;  //https://s3.zylowski.net/public/input/6.txt
+                    Console.WriteLine("Please, put the web address here:");
+                    try
+                    {
+                        string url = Console.ReadLine();
+                        uri = new Uri(url);
+                        Client.DownloadFile(uri, "6.txt");
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine("Address must not be empty.");
+                    }
+                    catch (UriFormatException)
+                    {
+                        Console.WriteLine("Wrong URL format.");
+                    }
+                    catch (WebException)
+                    {
+                        Console.WriteLine("File could not be downloaded.");
+                    }
                 }
-                catch (WebException)
+                if (answer == "n")
                 {
-                    Console.WriteLine("File could not be downloaded");
+                    Console.WriteLine("Please, put the file name here:");
+                    try
+                    {
+                        string fileName = Console.ReadLine();
+                        using (StreamReader file = new StreamReader(fileName))
+                        {
+                            StreamWriter saveToFile = new StreamWriter("6.txt");
+                            saveToFile.Write(file.ReadToEnd());
+                            saveToFile.Close();
+                        }
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine("Path to file must not be empty.");
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        Console.WriteLine("There is no file named like that.");
+                    }
                 }
             }
         }

@@ -297,7 +297,7 @@ namespace MaxSuperHiperMegaRambo5
             int count = 0;
             foreach (char c in fileReaded)
             {
-                if (Char.IsPunctuation(c))
+                if (c == '.' || c == '?' )
                     count++;
             }
             return count;

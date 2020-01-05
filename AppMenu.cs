@@ -18,14 +18,13 @@ namespace MaxSuperHiperMegaRambo5
 
         public static void MainMenu()
         {
+
             int cndt = 0;
             int lettersInFile = 0;
             int wordsInFile = 0;
             int punctuationsInFile = 0;
             int sentencesInFile = 0;
             Dictionary<char, int> report;
-
-            GetFile();
 
             do
             {
@@ -49,32 +48,24 @@ namespace MaxSuperHiperMegaRambo5
                 }
                 Console.WriteLine("You chose {0}", read);
                 if (cndt < 1 || cndt > 8) Console.WriteLine("It's not a proper choice");
-                
+
                 switch (cndt)
                 {
                     case 1:
-                        {
-                            try
-                            {
-                                GetFile();
-                            }
-                            catch (Exception)
-                            {
-                            }
-                            break;
-                        }
+                        GetFile();
+                        break;
                     case 2:
                         {
                             try
                             {
-                                StreamReader file = new StreamReader("6.TXT");
-                                lettersInFile = CountLetters(file);
+                                lettersInFile = CountLetters();
                                 Console.WriteLine("There are {0} letters in given file.", lettersInFile);
-                                file.Close();
                             }
-                            catch (FileNotFoundException)
+                            catch (FileNotFoundException e)
                             {
+                                Console.WriteLine(e.Message);
                             }
+
                             break;
                         }
                     case 3:
@@ -84,37 +75,37 @@ namespace MaxSuperHiperMegaRambo5
                                 wordsInFile = CountWords();
                                 Console.WriteLine("There are {0} words in given file.", wordsInFile);
                             }
-                            catch (FileNotFoundException)
+                            catch (FileNotFoundException e)
                             {
+                                Console.WriteLine(e.Message);
                             }
                             break;
                         }
-                   
+
                     case 4:
                         {
                             try
                             {
-                                StreamReader file = new StreamReader("6.txt");
-                                punctuationsInFile = CountPunctuation(file);
+                                punctuationsInFile = CountPunctuation();
                                 Console.WriteLine("There are {0} punctuation marks in given file.", punctuationsInFile);
-                                file.Close();
                             }
-                            catch (FileNotFoundException)
+                            catch (FileNotFoundException e)
                             {
+                                Console.WriteLine(e.Message);
                             }
+
                             break;
-                        }						
+                        }
                     case 5:
                         {
                             try
                             {
-                                StreamReader file = new StreamReader("6.txt");
-                                sentencesInFile = CountSentences(file);
+                                sentencesInFile = CountSentences();
                                 Console.WriteLine("There are {0} sentences in given file.", sentencesInFile);
-                                file.Close();
                             }
-                            catch (FileNotFoundException)
+                            catch (FileNotFoundException e)
                             {
+                                Console.WriteLine(e.Message);
                             }
                             break;
                         }
@@ -122,16 +113,15 @@ namespace MaxSuperHiperMegaRambo5
                         {
                             try
                             {
-                                StreamReader file = new StreamReader("6.TXT");
-                                report = Report(file);
+                                report = Report();
                                 foreach (KeyValuePair<char, int> item in report)
                                 {
                                     Console.WriteLine("Letter: {0}\tQuantity: {1}", item.Key, item.Value);
                                 }
-                                file.Close();
                             }
-                            catch (FileNotFoundException)
+                            catch (FileNotFoundException e)
                             {
+                                Console.WriteLine(e.Message);
                             }
                             break;
                         }
@@ -139,16 +129,15 @@ namespace MaxSuperHiperMegaRambo5
                         {
                             try
                             {
-                                StreamReader file = new StreamReader("6.TXT");
-                                Statistics(file);
+                                Statistics();
                                 if (File.Exists("statystyki.txt"))
                                     Console.WriteLine("Statistics succesfully written to file \"statystyki.txt\"");
                                 else
                                     Console.WriteLine("Statistics weren't succesfully written to file.");
-                                file.Close();
                             }
-                            catch (FileNotFoundException)
+                            catch (FileNotFoundException e)
                             {
+                                Console.WriteLine(e.Message);
                             }
                             break;
                         }
@@ -167,40 +156,35 @@ namespace MaxSuperHiperMegaRambo5
             } while (cndt != 8);
         }
 
-        static int CountLetters(StreamReader file)
+        static int CountLetters()
         {
-            if (File.Exists("6.txt"))
+            using (StreamReader stream = new StreamReader("6.Txt"))
             {
-                string fileReaded = file.ReadToEnd();
+                string fileReaded = stream.ReadToEnd();
                 Regex regex = new Regex(@"[^A-Za-z]");
                 fileReaded.Trim();
                 fileReaded = regex.Replace(fileReaded, "");
                 int len = fileReaded.Length;
                 return len;
             }
-            else
-                throw new FileNotFoundException();
         }
 
         static void Exit()
         {
             if (File.Exists("6.txt"))
             {
+                Console.WriteLine("Deleting file 6.txt");
                 File.Delete("6.txt");
             }
             if (File.Exists("statystyki.txt"))
             {
+                Console.WriteLine("Deleting file statystyki.txt");
                 File.Delete("statystyki.txt");
             }
         }
 
         static int CountWords()
         {
-            if (!File.Exists("6.Txt"))
-            {
-                throw new FileNotFoundException();
-            }
-
             using (StreamReader stream = new StreamReader("6.Txt"))
             {
                 string fileRead = stream.ReadToEnd().ToString();
@@ -237,11 +221,11 @@ namespace MaxSuperHiperMegaRambo5
             }
         }
 
-        static Dictionary<char, int> Report(StreamReader file)
+        static Dictionary<char, int> Report()
         {
-            if (File.Exists("6.txt"))
+            using (StreamReader stream = new StreamReader("6.Txt"))
             {
-                string fileReaded = file.ReadToEnd();
+                string fileReaded = stream.ReadToEnd();
                 Regex regex = new Regex(@"[^A-Za-z]");
                 fileReaded = fileReaded.Trim();
                 fileReaded = regex.Replace(fileReaded, "");
@@ -259,72 +243,62 @@ namespace MaxSuperHiperMegaRambo5
                 }
                 return report;
             }
-            else
-                throw new FileNotFoundException();
         }
 
-		static int CountSentences(StreamReader file)
+        static int CountSentences()
         {
-            if (!File.Exists("6.txt"))
+            using (StreamReader stream = new StreamReader("6.Txt"))
             {
-                throw new FileNotFoundException();
-            }
-
-            string fileReaded = file.ReadToEnd();
-            string[] sentences = fileReaded.Split('.', '?');
-            List<string> nonEmptySentence = new List<string>();
-            foreach(string sentence in sentences)
-            {
-                if (!String.IsNullOrWhiteSpace(sentence))
+                string fileReaded = stream.ReadToEnd();
+                string[] sentences = fileReaded.Split('.', '?');
+                List<string> nonEmptySentence = new List<string>();
+                foreach (string sentence in sentences)
                 {
-                    nonEmptySentence.Add(sentence);
+                    if (!String.IsNullOrWhiteSpace(sentence))
+                    {
+                        nonEmptySentence.Add(sentence);
+                    }
+                }
+                int len = nonEmptySentence.Count;
+                return len;
+            }
+        }
+
+        static int CountPunctuation()
+        {
+            using (StreamReader stream = new StreamReader("6.Txt"))
+            {
+                string fileReaded = stream.ReadToEnd();
+                fileReaded.Trim();
+                int count = 0;
+                foreach (char c in fileReaded)
+                {
+                    if (c == '.' || c == '?')
+                        count++;
+                }
+                return count;
+            }
+        }
+
+        static void Statistics()
+        {
+            using (StreamWriter stats = new StreamWriter("statystyki.txt"))
+            {
+                stats.WriteLine("There are {0} letters in given file.", CountLetters());
+                stats.WriteLine();
+                stats.WriteLine("There are {0} words in given file.", CountWords());
+                stats.WriteLine();
+                stats.WriteLine("There are {0} punctuation marks in given file.", CountPunctuation());
+                stats.WriteLine();
+                stats.WriteLine("There are {0} sentences in given file.", CountSentences());
+                stats.WriteLine();
+                Dictionary<char, int> report = new Dictionary<char, int>();
+                report = Report();
+                foreach (KeyValuePair<char, int> item in report)
+                {
+                    stats.WriteLine("Letter: {0}\tQuantity: {1}", item.Key, item.Value);
                 }
             }
-            int len = nonEmptySentence.Count;
-            return len;
-        }
-
-        static int CountPunctuation(StreamReader file)
-        {
-            if (!File.Exists("6.Txt"))
-            {
-                throw new FileNotFoundException();
-            }
-
-            string fileReaded = file.ReadToEnd();
-            fileReaded.Trim();
-            int count = 0;
-            foreach (char c in fileReaded)
-            {
-                if (c == '.' || c == '?' )
-                    count++;
-            }
-            return count;
-        }
-
-        static void Statistics(StreamReader file)
-        {
-            if (!File.Exists("6.Txt"))
-            {
-                throw new FileNotFoundException();
-            }
-            
-            StreamWriter stats = new StreamWriter("statystyki.txt");
-            stats.WriteLine("There are {0} letters in given file.", CountLetters(file));
-            stats.WriteLine();
-            stats.WriteLine("There are {0} words in given file.", CountWords());
-            stats.WriteLine();
-            stats.WriteLine("There are {0} punctuation marks in given file.", CountPunctuation(file));
-            stats.WriteLine();
-            stats.WriteLine("There are {0} sentences in given file.", CountSentences(file));
-            stats.WriteLine();
-            Dictionary<char, int> report = new Dictionary<char, int>();
-            report = Report(file);
-            foreach (KeyValuePair<char, int> item in report)
-            {
-                stats.WriteLine("Letter: {0}\tQuantity: {1}", item.Key, item.Value);
-            }
-            stats.Close();
         }
 
         static public void Main(String[] args)

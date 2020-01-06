@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MaxSuperHiperMegaRambo5
 {
@@ -15,6 +16,8 @@ namespace MaxSuperHiperMegaRambo5
     {
         private static readonly char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
                                                    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
+        private static readonly char[] vowels = { 'a', 'e', 'y', 'i', 'o', 'ą', 'ę', 'u', 'ó' };
 
         public static void MainMenu()
         {
@@ -58,7 +61,7 @@ namespace MaxSuperHiperMegaRambo5
                         {
                             try
                             {
-                                lettersInFile = CountLetters();
+                                lettersInFile = CountLetters(out int consonants, out int vowel);
                                 Console.WriteLine("There are {0} letters in given file.", lettersInFile);
                             }
                             catch (FileNotFoundException e)
@@ -156,15 +159,31 @@ namespace MaxSuperHiperMegaRambo5
             } while (cndt != 8);
         }
 
-        static int CountLetters()
+        static int CountLetters(out int consontantsCount, out int vowelCount)
         {
             using (StreamReader stream = new StreamReader("6.Txt"))
             {
+                int len = 0;
+                consontantsCount = 0;
+                vowelCount = 0;
+
                 string fileReaded = stream.ReadToEnd();
-                Regex regex = new Regex(@"[^A-Za-z]");
-                fileReaded.Trim();
-                fileReaded = regex.Replace(fileReaded, "");
-                int len = fileReaded.Length;
+
+                foreach (char c in fileReaded)
+                {
+                    if (Char.IsLetter(c))
+                    {
+                        len++;
+                        if (vowels.Contains(c))
+                        {
+                            vowelCount++;
+                        }
+                        else
+                        {
+                            consontantsCount++;
+                        }
+                    }
+                }
                 return len;
             }
         }
@@ -300,7 +319,6 @@ namespace MaxSuperHiperMegaRambo5
                 }
             }
         }
-
 
         static public void Main(String[] args)
         {

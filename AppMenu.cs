@@ -207,20 +207,17 @@ namespace MaxSuperHiperMegaRambo5
             using (StreamReader stream = new StreamReader("6.Txt"))
             {
                 string fileRead = stream.ReadToEnd().ToString();
-                bool HasWordEnded = true;
                 int counter = 0;
-                foreach (char c in fileRead)
+
+                string[] splitted = fileRead.Trim().Split(' ');
+                foreach (string str in splitted)
                 {
-                    if (HasWordEnded && Char.IsLetter(c))
+                    if (str.Length > 1)
                     {
                         counter++;
-                        HasWordEnded = false;
-                    }
-                    if (!HasWordEnded && Char.IsWhiteSpace(c))
-                    {
-                        HasWordEnded = true;
                     }
                 }
+
                 return counter;
             }
         }

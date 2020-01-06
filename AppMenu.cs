@@ -300,7 +300,11 @@ namespace MaxSuperHiperMegaRambo5
         {
             using (StreamWriter stats = new StreamWriter("statystyki.txt"))
             {
-                stats.WriteLine("There are {0} letters in given file.", CountLetters());
+                stats.WriteLine("There are {0} letters in given file.", CountLetters(out int consonants, out int vowels));
+                stats.WriteLine();
+                stats.WriteLine("There are {0} consonants in given file.", consonants);
+                stats.WriteLine();
+                stats.WriteLine("There are {0} vowels in given file.", vowels);
                 stats.WriteLine();
                 stats.WriteLine("There are {0} words in given file.", CountWords());
                 stats.WriteLine();
